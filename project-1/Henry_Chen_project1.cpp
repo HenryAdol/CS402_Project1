@@ -8,7 +8,7 @@
 #include <type_traits>
 
 #include "testing.h"
-#include "Firstname_Lastname_project1.h"
+#include "Henry_Chen_project1.h"
 
 using namespace std;
 
@@ -39,7 +39,7 @@ using namespace std;
 
 /** This please add your name here as well **/
 const std::string who_am_i() {
-    return "Firstname_Lastname";
+    return "Henry_Chen";
 }
 
 
@@ -66,7 +66,15 @@ const std::string who_am_i() {
  * */
 template<typename T>
 void bubble_sort(vector<T> &list, bool descending) {
-    // Your code here!
+    
+
+    for (int i = 0; i < list.size(); ++i) {
+        for (int j = 0; j < list.size() - i - 1; ++j) {
+            if ((!descending && list[j] > list[j + 1]) || (descending && list[j] < list[j + 1])) {
+                std::swap(list[j], list[j+1]);
+            }
+        }
+    }
 }
 
 
@@ -100,8 +108,17 @@ void bubble_sort(vector<T> &list, bool descending) {
  * */
 template<typename T>
 void selection_sort(vector<T> &list, bool descending) {
-    // Your code here!
+    for (size_t i = 0; i < list.size() - 1; ++i) {
+        int selected_index = i;
+        for (size_t j = i + 1; j < list.size(); ++j) {
+            if ((!descending && list[j] < list[selected_index]) || (descending && list[j] > list[selected_index])) {
+                selected_index = j;
+            }
+        }
+        std::swap(list[i], list[selected_index]);
+    }
 }
+
 
 
 
@@ -316,15 +333,15 @@ int main() {
      *     autograder will throw an error if you run it without uncommenting the code.
      */
 
-    //vector<int> test_list {1, 2, 3, 4, 5};
-    //vector<unsigned int> test_list2 {1, 2, 3, 4, 5};
-    //vector<StableChar> test_list3  {};
-    //vector<StableInt> test_list4 {};
-    //vector<StableString> test_list5 {};
-    //vector<short> test_list6  {};
-    //vector<unsigned short> test_list7  {};
-    //vector<long> test_list8  {};
-    //vector<unsigned long> test_list9  {};
+    vector<int> test_list {1, 2, 3, 4, 5};
+    vector<unsigned int> test_list2 {1, 2, 3, 4, 5};
+    vector<StableChar> test_list3  {};
+    vector<StableInt> test_list4 {};
+    vector<StableString> test_list5 {};
+    vector<short> test_list6  {};
+    vector<unsigned short> test_list7  {};
+    vector<long> test_list8  {};
+    vector<unsigned long> test_list9  {};
 
 
     //insertion_sort(test_list);
@@ -348,15 +365,15 @@ int main() {
     //selection_sort(test_list8);
     //selection_sort(test_list9);
 
-    //bubble_sort(test_list);
-    //bubble_sort(test_list2);
-    //bubble_sort(test_list3);
-    //bubble_sort(test_list4);
-    //bubble_sort(test_list5);
-    //bubble_sort(test_list6);
-    //bubble_sort(test_list7);
-    //bubble_sort(test_list8);
-    //bubble_sort(test_list9);
+    bubble_sort(test_list);
+    bubble_sort(test_list2);
+    bubble_sort(test_list3);
+    bubble_sort(test_list4);
+    bubble_sort(test_list5);
+    bubble_sort(test_list6);
+    bubble_sort(test_list7);
+    bubble_sort(test_list8);
+    bubble_sort(test_list9);
 
 
     //merge_sort(test_list);
