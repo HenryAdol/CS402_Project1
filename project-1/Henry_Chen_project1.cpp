@@ -108,7 +108,7 @@ void bubble_sort(vector<T> &list, bool descending) {
  * */
 template<typename T>
 void selection_sort(vector<T> &list, bool descending) {
-    for (size_t i = 0; i < list.size() - 1; ++i) {
+    for (size_t i = 0; i + 1 < list.size(); ++i) {
         int selected_index = i;
         for (size_t j = i + 1; j < list.size(); ++j) {
             if ((!descending && list[j] < list[selected_index]) || (descending && list[j] > list[selected_index])) {
@@ -154,7 +154,13 @@ void selection_sort(vector<T> &list, bool descending) {
 //void insertion_sort(vector<T> &list, bool descending = false);
 template<typename T>
 void insertion_sort(vector<T> &list, bool descending) {
-    // Your code here!
+    for (size_t i = 1; i < list.size(); ++i) {
+        size_t index = i;
+        while (index > 0 && ((!descending && list[index] < list[index - 1]) || (descending && list[index] > list[index - 1]))) {
+            std::swap(list[index], list[index - 1]);
+            index--;
+        }
+    }
 }
 
 
