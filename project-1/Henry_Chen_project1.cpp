@@ -66,7 +66,10 @@ const std::string who_am_i() {
  * */
 template<typename T>
 void bubble_sort(vector<T> &list, bool descending) {
-    
+    // Base case if list is empty or has only 1 number
+    if (list.size() <= 1) {
+        return;
+    }
 
     for (int i = 0; i < list.size(); ++i) {
         for (int j = 0; j < list.size() - i - 1; ++j) {
@@ -108,6 +111,11 @@ void bubble_sort(vector<T> &list, bool descending) {
  * */
 template<typename T>
 void selection_sort(vector<T> &list, bool descending) {
+    // Base case if list is empty or has only 1 number
+    if (list.size() <= 1) {
+        return;
+    }
+
     for (size_t i = 0; i + 1 < list.size(); ++i) {
         int selected_index = i;
         for (size_t j = i + 1; j < list.size(); ++j) {
@@ -118,7 +126,6 @@ void selection_sort(vector<T> &list, bool descending) {
         std::swap(list[i], list[selected_index]);
     }
 }
-
 
 
 
@@ -154,6 +161,11 @@ void selection_sort(vector<T> &list, bool descending) {
 //void insertion_sort(vector<T> &list, bool descending = false);
 template<typename T>
 void insertion_sort(vector<T> &list, bool descending) {
+    // Base case if list is empty or has only 1 number
+    if (list.size() <= 1) {
+        return;
+    }
+
     for (size_t i = 1; i < list.size(); ++i) {
         size_t index = i;
         while (index > 0 && ((!descending && list[index] < list[index - 1]) || (descending && list[index] > list[index - 1]))) {
@@ -162,7 +174,6 @@ void insertion_sort(vector<T> &list, bool descending) {
         }
     }
 }
-
 
 
 
@@ -190,7 +201,37 @@ void insertion_sort(vector<T> &list, bool descending) {
  * */
 template<typename T>
 void quicksort(vector<T> &list, bool descending) {
-    // Your code here!
+    if (list.size() <= 1) {
+        return;
+    }
+
+    // Get random pivot 
+    T pivot = list[get_rand_index(list.size())];
+    vector<T> less_than_pivot;
+    vector<T> greater_than_pivot;
+    vector<T> equal_to_pivot;
+
+    // Categorize the numbers into smaller, equal, or greater than the pivot
+    for (const T& item : list) {
+        if ((!descending && item < pivot) || (descending && item > pivot)) {
+            less_than_pivot.push_back(item);
+        } else if ((!descending && item > pivot) || (descending && item < pivot)) {
+            greater_than_pivot.push_back(item);
+        }
+        else {
+            equal_to_pivot.push_back(item);
+        }
+    }
+
+    // Recursive calls to sort the two halves
+    quicksort(less_than_pivot, descending);
+    quicksort(greater_than_pivot, descending);
+    list.clear();
+
+    // Adds the smaller and greater halves together to change the list
+    list.insert(list.end(), less_than_pivot.begin(), less_than_pivot.end());
+    list.insert(list.end(), equal_to_pivot.begin(), equal_to_pivot.end());
+    list.insert(list.end(), greater_than_pivot.begin(), greater_than_pivot.end());
 }
 
 
@@ -350,26 +391,26 @@ int main() {
     vector<unsigned long> test_list9  {};
 
 
-    //insertion_sort(test_list);
-    //insertion_sort(test_list2);
-    //insertion_sort(test_list3);
-    //insertion_sort(test_list4);
-    //insertion_sort(test_list5);
-    //insertion_sort(test_list6);
-    //insertion_sort(test_list7);
-    //insertion_sort(test_list8);
-    //insertion_sort(test_list9);
+    insertion_sort(test_list);
+    insertion_sort(test_list2);
+    insertion_sort(test_list3);
+    insertion_sort(test_list4);
+    insertion_sort(test_list5);
+    insertion_sort(test_list6);
+    insertion_sort(test_list7);
+    insertion_sort(test_list8);
+    insertion_sort(test_list9);
 
 
-    //selection_sort(test_list);
-    //selection_sort(test_list2);
-    //selection_sort(test_list3);
-    //selection_sort(test_list4);
-    //selection_sort(test_list5);
-    //selection_sort(test_list6);
-    //selection_sort(test_list7);
-    //selection_sort(test_list8);
-    //selection_sort(test_list9);
+    selection_sort(test_list);
+    selection_sort(test_list2);
+    selection_sort(test_list3);
+    selection_sort(test_list4);
+    selection_sort(test_list5);
+    selection_sort(test_list6);
+    selection_sort(test_list7);
+    selection_sort(test_list8);
+    selection_sort(test_list9);
 
     bubble_sort(test_list);
     bubble_sort(test_list2);
@@ -392,15 +433,15 @@ int main() {
     //merge_sort(test_list8);
     //merge_sort(test_list9);
 
-    //quicksort(test_list);
-    //quicksort(test_list2);
-    //quicksort(test_list3);
-    //quicksort(test_list4);
-    //quicksort(test_list5);
-    //quicksort(test_list6);
-    //quicksort(test_list7);
-    //quicksort(test_list8);
-    //quicksort(test_list9);
+    quicksort(test_list);
+    quicksort(test_list2);
+    quicksort(test_list3);
+    quicksort(test_list4);
+    quicksort(test_list5);
+    quicksort(test_list6);
+    quicksort(test_list7);
+    quicksort(test_list8);
+    quicksort(test_list9);
 
     //my_hybrid_sort(test_list);
     //my_hybrid_sort(test_list2);
