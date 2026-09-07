@@ -350,7 +350,40 @@ void my_hybrid_sort(vector<T> &list, bool descending) {
 //concept Integral = std::is_integral<T>::value;
 template<Integral T> 
 void binary_radix_sort(vector<T> &list, bool descending) {
-    // Your code here!
+    vector<int> negatives;
+    vector<int> non_negatives;
+
+    // Separate the numbers into negatives and non negatives
+    for (int item : list) {
+        if (item < 0) {
+            negatives.push_back(-item);
+        } else {
+            non_negatives.push_back(item);
+        }
+    }
+
+    // Sort the numbers by comparing bit positions
+    radix_sort_nonnegative(negatives);
+    radix_sort_nonnegative(non_negatives);
+
+    list.clear();
+
+    // Reverse the negatives and add them back to the original list
+    for (int i = negatives.size() - 1; i >= 0; --i) {
+        list.push_back(-negatives[i]);
+    }
+
+    // Do the same for non negatives
+    for (int item : non_negatives) {
+        list.push_back(item);
+        cout << "Item: " << item << endl;
+    }
+
+    // Reverse the list if descending 
+    if (descending) {
+        reverse(list.begin(), list.end());
+    }
+   
 }
 
 

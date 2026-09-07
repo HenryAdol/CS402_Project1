@@ -24,6 +24,32 @@ inline unsigned int get_rand_index(unsigned int len) {
  * in order to make your implementations easier.
  */
 
+template <typename T>
+void radix_sort_nonnegative(vector<T>& list) {
+    vector<T> zero_bucket;
+    vector<T> one_bucket;
+
+    // Go through each bit position
+    for (int bit = 0; bit < 32; ++bit) {
+        zero_bucket.clear();
+        one_bucket.clear();
+
+        // Check the current bit and then place the number in its right bucket
+        for (T item : list) {
+            if (((item >> bit) & 1) == 1) {
+                one_bucket.push_back(item);
+            } else {
+                zero_bucket.push_back(item);
+            }
+        }
+
+        // Add the numbers back to the original list
+        list.clear();
+        list.insert(list.end(), zero_bucket.begin(), zero_bucket.end());
+        list.insert(list.end(), one_bucket.begin(), one_bucket.end());
+    }
+}
+
 
 
 /*** END STUDENT HELPER FUNCTIONS ***/
