@@ -295,7 +295,40 @@ void merge_sort(vector<T> &list, bool decending) {
  */
 template<typename T>
 void my_hybrid_sort(vector<T> &list, bool descending) {
-    // Your code here!
+    // Base case using insertion sort for small lists
+    if (list.size() <= 64) {
+        insertion_sort(list, descending);
+        return;
+    }
+
+    // Split the list into two halves
+    vector <T> left_half(list.begin(), list.begin() + list.size() / 2);
+    vector <T> right_half(list.begin() + list.size() / 2, list.end());
+
+    // Call recursively to sort both halves
+    my_hybrid_sort(left_half, descending);
+    my_hybrid_sort(right_half, descending);
+
+    vector<T> merged;
+    int left_index = 0;
+    int right_index = 0;
+
+    // Merges the two halves together in sorted order
+    while (left_index < left_half.size() && right_index < right_half.size()) {
+        if ((descending && left_half[left_index] >= right_half[right_index]) || (!descending && left_half[left_index] <= right_half[right_index])) {
+            merged.push_back(left_half[left_index]);
+            left_index++;
+        } else {
+            merged.push_back(right_half[right_index]);
+            right_index++;
+        }
+    }
+
+    // Adds any remaining numbers from either half
+    merged.insert(merged.end(), left_half.begin() + left_index, left_half.end());
+    merged.insert(merged.end(), right_half.begin() + right_index, right_half.end());
+
+    list = merged;
 }
 
 
@@ -423,15 +456,15 @@ int main() {
     bubble_sort(test_list9);
 
 
-    //merge_sort(test_list);
-    //merge_sort(test_list2);
-    //merge_sort(test_list3);
-    //merge_sort(test_list4);
-    //merge_sort(test_list5);
-    //merge_sort(test_list6);
-    //merge_sort(test_list7);
-    //merge_sort(test_list8);
-    //merge_sort(test_list9);
+    merge_sort(test_list);
+    merge_sort(test_list2);
+    merge_sort(test_list3);
+    merge_sort(test_list4);
+    merge_sort(test_list5);
+    merge_sort(test_list6);
+    merge_sort(test_list7);
+    merge_sort(test_list8);
+    merge_sort(test_list9);
 
     quicksort(test_list);
     quicksort(test_list2);
@@ -443,15 +476,15 @@ int main() {
     quicksort(test_list8);
     quicksort(test_list9);
 
-    //my_hybrid_sort(test_list);
-    //my_hybrid_sort(test_list2);
-    //my_hybrid_sort(test_list3);
-    //my_hybrid_sort(test_list4);
-    //my_hybrid_sort(test_list5);
-    //my_hybrid_sort(test_list6);
-    //my_hybrid_sort(test_list7);
-    //my_hybrid_sort(test_list8);
-    //my_hybrid_sort(test_list9);
+    my_hybrid_sort(test_list);
+    my_hybrid_sort(test_list2);
+    my_hybrid_sort(test_list3);
+    my_hybrid_sort(test_list4);
+    my_hybrid_sort(test_list5);
+    my_hybrid_sort(test_list6);
+    my_hybrid_sort(test_list7);
+    my_hybrid_sort(test_list8);
+    my_hybrid_sort(test_list9);
 
     //binary_radix_sort(test_list);
     //binary_radix_sort(test_list2);
