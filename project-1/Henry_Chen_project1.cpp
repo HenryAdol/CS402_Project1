@@ -388,7 +388,85 @@ void binary_radix_sort(vector<T> &list, bool descending) {
  */
 template<Integral T>
 void radix_sort(vector<T> &list, unsigned int base, bool descending) {
-    // Your code here!
+    // Base case if list is empty or has only 1 number
+    if (list.size() <= 1) {
+        return;
+    }
+    // Check if base is valid
+    if (base < 2) {
+        throw std::invalid_argument("Base must be at least 2.");
+    }
+
+
+    // Splits the original list into negatives and non negatives
+    vector<T> negatives;
+    vector<T> non_negatives;
+
+    for (const T& item : list) {
+        if (item < 0) {
+            negatives.push_back(-item);
+        } else {
+            non_negatives.push_back(item);
+        }
+    }
+
+    for (vector<T>* sublist : {&negatives, &non_negatives}) {
+        if (sublist->size() < 1) {
+            continue;
+        }
+
+        T max_num = *max_element(sublist->begin(), sublist->end());
+        int d = 0;
+        T place = 1;
+
+        // Calculates the number of digits in the maximum number 
+        while (max_num / place > 0) {
+            place = base * place;
+            d++;
+        }
+
+        // Create a 2d array to hold the numbers in each bucket
+        vector<vector<T>> A(base);
+        place = 1;
+
+        // Sorts the numbers based on each digit, starting from the least significant digit
+        for (int i = 0; i < d; ++i) {
+            for (const T& item : *sublist) {
+
+                // Extract the digit based on current place value and add it to the appropriate bucket
+                size_t digit = (item / place) % base;
+                A[digit].push_back(item);
+                
+            }
+            place = place * base;
+            // Clear the original list
+            sublist->clear();
+
+            // Add the numbers back to original list in sorted order
+            for (vector<T>& bucket: A) {
+                if (!bucket.empty()) {
+                    sublist->insert(sublist->end(), bucket.begin(), bucket.end());
+                    bucket.clear();
+                }
+            }
+        }
+        if (sublist == &negatives) {
+            std::reverse(sublist->begin(), sublist->end());
+            
+            for (T& item : *sublist) {
+                item = -item;
+            }
+        }
+    }
+
+    list.clear();
+    // Merge the sorted negatives and non-negatives back into the original list
+    list.insert(list.end(), negatives.begin(), negatives.end());
+    list.insert(list.end(), non_negatives.begin(), non_negatives.end());
+
+    if (descending) {
+        std::reverse(list.begin(), list.end());
+    }
 }
 
 
@@ -486,19 +564,19 @@ int main() {
     my_hybrid_sort(test_list8);
     my_hybrid_sort(test_list9);
 
-    //binary_radix_sort(test_list);
-    //binary_radix_sort(test_list2);
-    //binary_radix_sort(test_list6);
-    //binary_radix_sort(test_list7);
-    //binary_radix_sort(test_list8);
-    //binary_radix_sort(test_list9);
+    binary_radix_sort(test_list);
+    binary_radix_sort(test_list2);
+    binary_radix_sort(test_list6);
+    binary_radix_sort(test_list7);
+    binary_radix_sort(test_list8);
+    binary_radix_sort(test_list9);
 
-    //radix_sort(test_list);
-    //radix_sort(test_list2);
-    //radix_sort(test_list6);
-    //radix_sort(test_list7);
-    //radix_sort(test_list8);
-    //radix_sort(test_list9);
+    radix_sort(test_list);
+    radix_sort(test_list2);
+    radix_sort(test_list6);
+    radix_sort(test_list7);
+    radix_sort(test_list8);
+    radix_sort(test_list9);
 
 
     return 0;
