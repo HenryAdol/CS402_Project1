@@ -260,7 +260,39 @@ void quicksort(vector<T> &list, bool descending) {
  * */
 template<typename T>
 void merge_sort(vector<T> &list, bool decending) {
-    // Your code here!
+    // Base case if list is empty or has only 1 number
+    if (list.size() <= 1) {
+        return;
+    }
+
+    // Split the list into two halves
+    vector <T> left_half(list.begin(), list.begin() + list.size() / 2);
+    vector <T> right_half(list.begin() + list.size() / 2, list.end());
+
+    // Call recursively to sort both halves
+    merge_sort(left_half, decending);
+    merge_sort(right_half, decending);
+
+    vector<T> merged;
+    int left_index = 0;
+    int right_index = 0;
+
+    // Merges the two halves together in sorted order
+    while (left_index < left_half.size() && right_index < right_half.size()) {
+        if ((decending && left_half[left_index] >= right_half[right_index]) || (!decending && left_half[left_index] <= right_half[right_index])) {
+            merged.push_back(left_half[left_index]);
+            left_index++;
+        } else {
+            merged.push_back(right_half[right_index]);
+            right_index++;
+        }
+    }
+
+    // Adds any remaining numbers from either half
+    merged.insert(merged.end(), left_half.begin() + left_index, left_half.end());
+    merged.insert(merged.end(), right_half.begin() + right_index, right_half.end());
+
+    list = merged;
 }
 
 
@@ -348,6 +380,34 @@ void my_hybrid_sort(vector<T> &list, bool descending) {
  */
 //template<class T>
 //concept Integral = std::is_integral<T>::value;
+
+template <typename T>
+void radix_sort_nonnegative(vector<T>& list) {
+    vector<T> zero_bucket;
+    vector<T> one_bucket;
+
+    // Go through each bit position
+    for (int bit = 0; bit < 32; ++bit) {
+        zero_bucket.clear();
+        one_bucket.clear();
+
+        // Check the current bit and then place the number in its right bucket
+        for (T item : list) {
+            if (((item >> bit) & 1) == 1) {
+                one_bucket.push_back(item);
+            } else {
+                zero_bucket.push_back(item);
+            }
+        }
+
+        // Add the numbers back to the original list
+        list.clear();
+        list.insert(list.end(), zero_bucket.begin(), zero_bucket.end());
+        list.insert(list.end(), one_bucket.begin(), one_bucket.end());
+    }
+}
+
+
 template<Integral T> 
 void binary_radix_sort(vector<T> &list, bool descending) {
     vector<int> negatives;
